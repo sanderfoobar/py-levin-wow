@@ -21,8 +21,11 @@ except:
 
 bucket = Bucket.create_handshake_request()
 
-sock.send(bucket.header())
-sock.send(bucket.payload())
+head = bucket.header()
+body = bucket.payload()
+
+sock.send(head)
+sock.send(body)
 
 # print(">> sent packet \'%s\'" % P2P_COMMANDS[bucket.command])
 

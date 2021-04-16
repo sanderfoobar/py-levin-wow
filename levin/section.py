@@ -27,14 +27,13 @@ class Section:
     @classmethod
     def handshake_request(cls, my_port: int = 0, network_id: bytes = None, peer_id: bytes = None):
         if not network_id:
-            network_id = bytes.fromhex("1230f171610441611731008216a1a110")  # mainnet
+            network_id = bytes.fromhex("1133ff77610441611731008216a1a110")  # mainnet
         if not peer_id:
             peer_id = random.getrandbits(64)
 
         section = cls()
         node_data = Section()
         # node_data.add("local_time", c_uint64(0x4141414141414141))
-        node_data.add("local_time", c_uint64(int(time())))
         node_data.add("my_port", c_uint32(my_port))
         node_data.add("network_id", c_string(network_id))
         node_data.add("peer_id", c_uint64(peer_id))
@@ -42,10 +41,11 @@ class Section:
 
         payload_data = Section()
         payload_data.add("cumulative_difficulty", c_uint64(1))
+        payload_data.add("cumulative_difficulty_top64", c_uint64(1))
         payload_data.add("current_height", c_uint64(1))
-        genesis_hash = bytes.fromhex("418015bb9ae982a1975da7d79277c2705727a56894ba0fb246adaabb1f4632e3")  # genesis
+        genesis_hash = bytes.fromhex("880f85e2fbb1fe6b870eb54cf96975838e059aac00b8b1212702db222007161b")  # wat
         payload_data.add("top_id", c_string(genesis_hash))
-        payload_data.add("top_version", c_ubyte(1))
+        payload_data.add("top_version", c_ubyte(17))
         section.add("payload_data", payload_data)
         return section
 
